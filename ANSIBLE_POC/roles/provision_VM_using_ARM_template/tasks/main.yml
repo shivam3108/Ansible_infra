@@ -1,0 +1,22 @@
+---
+ - name: Deploy a Vm using ARM template
+   shell: "
+          az group deployment create
+    --name Deploy_VM_SSH
+    --resource-group {{Resource_group}}
+    --template-file {{path_to_ARM_template}}
+    --parameters {{path_to_parameter_template}}"
+   register: deploy_return
+
+ - name: Variable assignment
+   set_fact: ipAddress="{{deploy_return.stdout | from_json}}"
+
+
+ - name: Debug the public ip
+   debug: msg="{{ipAddress.properties.outputs.ipaddress.value}}"
+
+ - name: add host to the host file
+   add_host:
+     name: "{{ipAddress.properties.outputs.ipaddress.value}}"
+     group: new_machine
+

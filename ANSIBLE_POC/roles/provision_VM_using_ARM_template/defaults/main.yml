@@ -1,0 +1,4 @@
+---
+Resource_group: ANSIBLE_POCTEST 
+vm_ip: ipAddress.properties.outputs.virtualMachineIPAddress.value
+

@@ -1,0 +1,45 @@
+---
+- name: VM Provisioning
+  hosts: localhost
+  connection: local
+  tasks:
+      - include_role:
+           name: provision_VM_using_ARM_template
+- name: Pip Installation
+  hosts: new_machine
+  remote_user: azureuser
+  tasks:
+      - include_role:
+           name: pip_installation
+- name: Docker Installation
+  hosts: new_machine
+  remote_user: azureuser
+  tasks:
+      - include_role:
+           name: docker_installation_ubuntu
+- name: Jenkins Installation
+  hosts: new_machine
+  vars:
+    jenkins_url: http://127.0.0.1
+    jenkins_port: 8080
+    jenkins_install_via: "docker"
+    jenkins_jobs: [
+        "my-first-job",
+      ]
+  remote_user: azureuser
+  tasks:
+      - include_role:
+           name: emmetog.jenkins
+
+- name: Sonarqube Installation
+  hosts: new_machine
+  remote_user: azureuser
+  tasks:
+      - include_role:
+           name: sonarqube 
+- name: Nexus Installation
+  hosts: new_machine
+  remote_user: azureuser
+  tasks:
+      - include_role:
+           name: nexus
