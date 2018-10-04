@@ -8,15 +8,28 @@
     --parameters {{path_to_parameter_template}}"
    register: deploy_return
 
+
  - name: Variable assignment
    set_fact: ipAddress="{{deploy_return.stdout | from_json}}"
-
+# - name: Debug the outputreturned
+ #  debug: msg="{{return_output}}"   
 
  - name: Debug the public ip
    debug: msg="{{ipAddress.properties.outputs.ipaddress.value}}"
+
+ - name: Set the ip address
+   set_fact: 
+     vm_ip: "{{ipAddress.properties.outputs.ipaddress.value}}"
+     cacheable: yes
+ - name: Debug the public ip
+   debug: msg="{{vm_ip}}"
+# - name: Debug the public ip
+ #  debug: msg="{{vm_ip2}}"
 
  - name: add host to the host file
    add_host:
      name: "{{ipAddress.properties.outputs.ipaddress.value}}"
      group: new_machine
+
+
 

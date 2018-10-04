@@ -1,13 +1,12 @@
 ---
 
-
-jenkins_version: "2.73.3" # The exact version of jenkins to deploy
+jenkins_version: "latest" # The exact version of jenkins to deploy
 
 jenkins_url: "http://127.0.0.1" # The url that Jenkins will be accessible on
 jenkins_port: "8080" # The port that Jenkins will listen on
 jenkins_home: /data/jenkins # The directory on the server where the Jenkins configs will live
 jenkins_admin: "admin@example.com" # The admininstrator email address for the Jenkins server
-
+docker_path: /var/run/docker.sock
 # If you need to override any java options then do that here.
 jenkins_java_opts: "-Djenkins.install.runSetupWizard=false"
 
@@ -23,6 +22,9 @@ jenkins_source_dir_jobs: "{{ jenkins_source_dir_configs }}/jobs"
 
 # config.xml template source
 jenkins_source_config_xml: "{{ jenkins_source_dir_configs }}/config.xml"
+jenkins_source_settings_xml: "{{ jenkins_source_dir_configs }}/settings.xml"
+jenkins_source_SonarRunner_xml: "{{ jenkins_source_dir_configs }}/hudson.plugins.sonar.SonarRunnerInstallation.xml"
+
 
 # Include custom files for jenkins installation
 jenkins_include_custom_files: false
@@ -46,7 +48,7 @@ jenkins_plugins:
   - template-project
   - ec2
   - sonar
-
+  - nexus-jenkins-plugin
 # List of sources of custom jenkins plugins to install
 jenkins_custom_plugins: []
 
@@ -55,7 +57,7 @@ jenkins_custom_plugins: []
 ###################################################
 
 # The docker hub image name
-jenkins_docker_image: "jenkins/jenkins"
+jenkins_docker_image: "pooja1989/jenkins-docker"
 
 # Configs specific to the "docker" method of running jenkins
 # The name of the jenkins container

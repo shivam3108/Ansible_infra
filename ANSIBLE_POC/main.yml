@@ -5,6 +5,7 @@
   tasks:
       - include_role:
            name: provision_VM_using_ARM_template
+
 - name: Pip Installation
   hosts: new_machine
   remote_user: azureuser
@@ -30,6 +31,12 @@
   tasks:
       - include_role:
            name: emmetog.jenkins
+- name: jenkins job
+  hosts: new_machine
+  remote_user: azureuser
+  tasks:
+      - include_role:
+           name: jenkins_job_creation
 
 - name: Sonarqube Installation
   hosts: new_machine
@@ -43,3 +50,10 @@
   tasks:
       - include_role:
            name: nexus
+#- name: jenkins job
+ # hosts: new_machine
+ # remote_user: azureuser
+ # tasks:
+  #    - include_role:
+   #        name: jenkins_job_creation
+

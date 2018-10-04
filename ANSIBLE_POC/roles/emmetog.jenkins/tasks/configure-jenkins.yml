@@ -23,6 +23,37 @@
     owner: "{{ jenkins_config_owner }}"
     group: "{{ jenkins_config_group }}"
 
+- name: Ensure maven settings dir is created
+  become: yes
+  become_method: sudo
+  become_user: root
+  file:
+    path: "{{ jenkins_home }}/tools/hudson.tasks.Maven_MavenInstallation/maven1/conf"
+    mode: 0777
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+    state: directory
+- name: Maven configuration file (settings.xml)
+  become: yes
+  become_method: sudo
+  become_user: root
+  template:
+    src: "{{ jenkins_source_settings_xml }}"
+    dest: "{{ jenkins_home }}/tools/hudson.tasks.Maven_MavenInstallation/maven1/conf/settings.xml"
+    mode: 0644
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+
+- name: SonarRunner configuration file
+  become: yes
+  become_method: sudo
+  become_user: root
+  template:
+    src: "{{ jenkins_source_SonarRunner_xml }}"
+    dest: "{{ jenkins_home }}/hudson.plugins.sonar.SonarRunnerInstallation.xml"
+    mode: 0644
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
 - name: Create intermediate dirs for custom files
   file:
     path: "{{ jenkins_home }}/{{ item.dest | dirname }}"

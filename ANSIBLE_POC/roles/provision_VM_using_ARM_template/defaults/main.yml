@@ -1,4 +1,2 @@
----
-Resource_group: ANSIBLE_POCTEST 
-vm_ip: ipAddress.properties.outputs.virtualMachineIPAddress.value
-
+vm_ip1: "{{vm_ip}}"
+#vm_ip1: 13.76.154.125

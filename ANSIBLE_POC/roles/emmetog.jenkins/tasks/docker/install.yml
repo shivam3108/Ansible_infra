@@ -10,17 +10,17 @@
     owner: "{{ jenkins_config_owner }}"
     group: "{{ jenkins_config_group }}"
     state: directory
-
 - name: Container is running (with ingress port)
   become: yes
   become_method: sudo
   become_user: root
   docker_container:
     name: "{{ jenkins_docker_container_name }}"
-    image: "{{ jenkins_docker_image }}:{{ jenkins_version }}"
+    image: "{{ jenkins_docker_image }}:latest"
     published_ports:
       - "{{ jenkins_port }}:8080"
     volumes:
+      - "{{docker_path}}:/var/run/docker.sock"
       - "{{ jenkins_home }}:/var/jenkins_home"
     env:
       JAVA_OPTS: "{{ jenkins_java_opts }}"
@@ -34,6 +34,7 @@
     image: "{{ jenkins_docker_image }}:{{ jenkins_version }}"
     expose: "8080"
     volumes:
+      - "{{docker_path}}:/var/run/docker.sock "
       - "{{ jenkins_home }}:/var/jenkins_home"
     env:
       JAVA_OPTS: "{{ jenkins_java_opts }}"
