@@ -1,6 +1,9 @@
 ---
 
 - name: Job directories are present
+  become: yes
+  become_method: sudo
+  become_user: root
   file:
     path: "{{ jenkins_home }}/jobs/{{ item }}"
     state: directory
@@ -8,6 +11,9 @@
   with_items: "{{ jenkins_jobs }}"
 
 - name: Jobs are present
+  become: yes
+  become_method: sudo
+  become_user: root
   copy:
     src: "{{ jenkins_source_dir_jobs }}/{{ item }}/config.xml"
     dest: "{{ jenkins_home }}/jobs/{{ item }}/config.xml"
