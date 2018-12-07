@@ -1,0 +1,28 @@
+---
+- name: Install python-jenkins
+  become: yes
+  become_method: sudo
+  become_user: root
+  pip: name=python-jenkins
+- name: Install python-jenkins
+  become: yes
+  become_method: sudo
+  become_user: root
+  pip: name=lxml
+#- name: Include vars.
+ # include_vars:
+    #dir: /home/ansiblepoc/shivam/ANSIBLE_POC/roles/provision_VM_using_ARM_template/defaults
+    #files_matching: main.yaml
+  #  file:  /home/ansiblepoc/shivam/ANSIBLE_POC/roles/provision_VM_using_ARM_template/defaults/main.yml 
+   # name: vm_ip
+#- name: Debug the public ip
+  # debug: msg=vm_ip.yml
+#- name: Include vars.
+#  include_vars:
+#    file: vm_ip.yml
+#    name: vm_ipp
+- jenkins_job:
+   config: "{{ lookup('file', 'files/template.xml') }}"
+   name: java_pipeline 
+   url: "http://{{vm_ip}}:8080"
+
